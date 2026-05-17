@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aether — Weather</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-layer">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="noise"></div>
+  </div>
+
+  <main class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <span class="brand-mark">✦</span>
+      <h1 class="brand">Aether</h1>
+      <p class="tagline">Real-time atmospheric intelligence</p>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+      <div class="search-wrapper">
+        <input
+          type="text"
+          id="cityInput"
+          class="city-input"
+          placeholder="Enter city name..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="searchBtn" class="search-btn" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+      </div>
+      <p class="search-hint">e.g. Karachi, London, Tokyo</p>
+    </section>
+
+    <!-- Loading State -->
+    <div id="loader" class="loader hidden">
+      <div class="pulse-ring"></div>
+      <span class="loader-text">Reading the skies…</span>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorBox" class="error-box hidden">
+      <span class="error-icon">⚠</span>
+      <p id="errorMsg" class="error-msg">City not found. Please check the name and try again.</p>
+    </div>
+
+    <!-- Weather Card -->
+    <article id="weatherCard" class="weather-card hidden">
+
+      <!-- Location & Date -->
+      <div class="card-header">
+        <div class="location-info">
+          <h2 id="cityName" class="city-name">—</h2>
+          <p id="countryName" class="country-name">—</p>
+        </div>
+        <div class="date-info">
+          <p id="dateStr" class="date-str">—</p>
+          <p id="timeStr" class="time-str">—</p>
+        </div>
+      </div>
+
+      <!-- Main Weather Display -->
+      <div class="main-weather">
+        <div class="temp-block">
+          <span id="tempVal" class="temp-val">—</span>
+          <span class="temp-unit">°C</span>
+        </div>
+        <div class="condition-block">
+          <div id="weatherIcon" class="weather-icon-wrap">—</div>
+          <p id="conditionText" class="condition-text">—</p>
+          <p id="feelsLike" class="feels-like">Feels like —</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="card-divider">
+        <span>atmospheric details</span>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-icon">💧</div>
+          <p class="stat-label">Humidity</p>
+          <p id="humidity" class="stat-value">—</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">🌬</div>
+          <p class="stat-label">Wind</p>
+          <p id="windSpeed" class="stat-value">—</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">👁</div>
+          <p class="stat-label">Visibility</p>
+          <p id="visibility" class="stat-value">—</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">🌡</div>
+          <p class="stat-label">Pressure</p>
+          <p id="pressure" class="stat-value">—</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">🌅</div>
+          <p class="stat-label">Sunrise</p>
+          <p id="sunrise" class="stat-value">—</p>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">🌇</div>
+          <p class="stat-label">Sunset</p>
+          <p id="sunset" class="stat-value">—</p>
+        </div>
+      </div>
+
+      <!-- High / Low Bar -->
+      <div class="high-low-bar">
+        <span>↑ <span id="tempMax">—</span>°C</span>
+        <div class="temp-bar-track"><div id="tempBarFill" class="temp-bar-fill"></div></div>
+        <span>↓ <span id="tempMin">—</span>°C</span>
+      </div>
+
+    </article>
+
+    <!-- Default / Empty State -->
+    <div id="emptyState" class="empty-state">
+      <div class="empty-icon">
+        <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="28" r="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <path d="M16 44 Q32 52 48 44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <circle cx="32" cy="28" r="5" fill="currentColor" opacity="0.4"/>
+        </svg>
+      </div>
+      <p class="empty-text">Search a city to begin</p>
+    </div>
+
+  </main>
+
+  <!-- API Note -->
+  <footer class="footer">
+    <p>Powered by <a href="https://openweathermap.org" target="_blank">OpenWeatherMap API</a> &nbsp;·&nbsp; Enter your API key in <code>app.js</code></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
